@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 
 import 'main.dart';
@@ -64,22 +65,38 @@ class SingleGridState extends State<SingleGrid> {
   }
 
   void setValueForGrid(String v) {
-    setState(() => value = v);
+    if(v == expectedValue) {
+      setState(() => value = v);
+    } else {
+      final snackBar = SnackBar(
+        /// need to set following properties for best effect of awesome_snackbar_content
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: 'Mauvaise valeur !',
+          message:
+          'Vous avez saisi une mauvaise valeur !',
+          contentType: ContentType.failure,
+        ),
+      );
+
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
+    }
   }
 
   void getValueFromPuzzle() {
     int v = puzzle.board()?.matrix()?[widget.x][widget.y].getValue()??0;
-    if(v == 0) {
-      v = puzzle.solvedBoard()?.matrix()?[widget.x][widget.y].getValue()??0;
-      expectedValue = v.toString();
-    } else {
-      value = v.toString();
-    }
+    int ev = puzzle.solvedBoard()?.matrix()?[widget.x][widget.y].getValue()??0;
+    value = v.toString();
+    expectedValue = ev.toString();
   }
 
   void doOnTap() {
     setState(() {
-      isSelected = !isSelected; // if not already selected
+      if(value != expectedValue) isSelected = !isSelected;
       if(isSelected) {
         setSelectedGrid(this);
       } else {
