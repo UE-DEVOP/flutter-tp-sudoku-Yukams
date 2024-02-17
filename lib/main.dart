@@ -3,16 +3,19 @@ import 'package:sudoku_starter/game.dart';
 import 'package:sudoku_api/sudoku_api.dart';
 
 Puzzle puzzle = Puzzle(PuzzleOptions());
-void Function()? savedCallback;
+void Function()? selectedGridCallback;
+void Function(String)? selectedGridChangeNumberCallback;
 
-void setSelectedBlock(void Function()? callback) {
-  if(savedCallback != null) {
-    savedCallback!();
-    savedCallback = null;
+void setSelectedGridCallback(void Function()? newCallback, void Function(String)? changeNumberCallback) {
+  if(selectedGridCallback != null) {
+    selectedGridCallback!();
+    selectedGridCallback = null;
+    selectedGridChangeNumberCallback = null;
   }
 
-  if(callback != null) {
-    savedCallback = callback;
+  if(newCallback != null) {
+    selectedGridCallback = newCallback;
+    selectedGridChangeNumberCallback = changeNumberCallback;
   }
 }
 

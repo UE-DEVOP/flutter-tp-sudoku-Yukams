@@ -26,9 +26,13 @@ class _SingleGrid extends State<SingleGrid> {
   bool isSelected = false;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     value = getValueFromPuzzle();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -59,8 +63,15 @@ class _SingleGrid extends State<SingleGrid> {
 
   void doOnTap() {
     setState(() {
-      isSelected = value == "" && isSelected == false;
-      setSelectedBlock(isSelected ? () => setState(() => isSelected = false) : null);
+      isSelected = isSelected == false; // if not already selected
+      if(isSelected) {
+        setSelectedGridCallback(
+              () => setState(() => isSelected = false),
+              (String v) => setState(() => value = v)
+        );
+      } else {
+        setSelectedGridCallback(null, null);
+      }
     });
   }
 }

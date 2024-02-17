@@ -56,7 +56,10 @@ class _InternalGrid extends State<InternalGrid> {
                       width: boxSize,
                       height: boxSize,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0.3)),
-                      child: SingleGrid(x: (widget.gridNumber~/3)+(y~/3), y: (widget.gridNumber%3)+(y%3)),
+                      child: SingleGrid(
+                          key: Key(widget.gridNumber.toString()+y.toString()),
+                          x: (widget.gridNumber~/3)+(y~/3),
+                          y: (widget.gridNumber%3)+(y%3)),
                     );
                   }),
                 )

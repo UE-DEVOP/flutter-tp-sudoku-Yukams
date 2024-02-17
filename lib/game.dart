@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sudoku_starter/internal_grid.dart';
+import 'package:sudoku_starter/main.dart';
 
 class Game extends StatefulWidget {
   const Game({Key? key, required this.title}) : super(key: key);
@@ -67,7 +68,31 @@ class _GameState extends State<Game> {
                       );
                     }),
                 )
-            )
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (x) {
+                return Row(
+                  children: [
+                    ElevatedButton(onPressed: () => changeValue((x+1).toString()), child: Text((x+1).toString())),
+                    const SizedBox(width: 10),
+                  ],
+                );
+              }),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(4, (x) {
+                return Row(
+                  children: [
+                    ElevatedButton(onPressed: () => changeValue((5+x+1).toString()), child: Text((5+x+1).toString())),
+                    const SizedBox(width: 10),
+                  ],
+                );
+              }),
+            ),
           ],
         ),
       ),
@@ -77,5 +102,11 @@ class _GameState extends State<Game> {
         child: const Icon(Icons.add),
       ),*/ // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void changeValue(String v) {
+    if(selectedGridChangeNumberCallback != null) {
+      selectedGridChangeNumberCallback!(v);
+    }
   }
 }
