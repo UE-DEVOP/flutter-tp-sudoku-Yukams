@@ -22,13 +22,32 @@ class SingleGrid extends StatefulWidget {
 }
 
 class _SingleGrid extends State<SingleGrid> {
+  String value = "0";
+  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
+    value = getValueFromPuzzle();
+
     return Scaffold(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Text(getValueFromPuzzle())
+        child: InkWell(
+          onTap: () {
+            doOnTap();
+          },
+          child:Container(
+            constraints: const BoxConstraints.expand(),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? Colors.blueAccent.shade100.withAlpha(100)
+                  : Colors.transparent,
+            ),
+            alignment: Alignment.center,
+            child: Text(value),
+          ),
+        ),
       )
     );
   }
@@ -36,5 +55,12 @@ class _SingleGrid extends State<SingleGrid> {
   String getValueFromPuzzle() {
     int v = puzzle.board()?.matrix()?[widget.x][widget.y].getValue()??0;
     return v == 0 ? "" : v.toString();
+  }
+
+  void doOnTap() {
+    setState(() {
+      isSelected = value == "" && isSelected == false;
+      setSelectedBlock(isSelected ? () => setState(() => isSelected = false) : null);
+    });
   }
 }

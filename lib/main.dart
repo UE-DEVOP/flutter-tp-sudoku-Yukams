@@ -3,6 +3,18 @@ import 'package:sudoku_starter/game.dart';
 import 'package:sudoku_api/sudoku_api.dart';
 
 Puzzle puzzle = Puzzle(PuzzleOptions());
+void Function()? savedCallback;
+
+void setSelectedBlock(void Function()? callback) {
+  if(savedCallback != null) {
+    savedCallback!();
+    savedCallback = null;
+  }
+
+  if(callback != null) {
+    savedCallback = callback;
+  }
+}
 
 void main() {
   puzzle.generate().then((_) {
