@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sudoku_starter/game.dart';
 import 'package:sudoku_api/sudoku_api.dart';
+import 'package:sudoku_starter/single_grid.dart';
 
 Puzzle puzzle = Puzzle(PuzzleOptions());
-void Function()? selectedGridCallback;
-void Function(String)? selectedGridChangeNumberCallback;
+SingleGridState? selectedGrid;
 
-void setSelectedGridCallback(void Function()? newCallback, void Function(String)? changeNumberCallback) {
-  if(selectedGridCallback != null) {
-    selectedGridCallback!();
-    selectedGridCallback = null;
-    selectedGridChangeNumberCallback = null;
+void setSelectedGrid(SingleGridState? grid) {
+  if(selectedGrid != null) {
+    selectedGrid!.setStateFalse();
+    selectedGrid = null;
   }
 
-  if(newCallback != null) {
-    selectedGridCallback = newCallback;
-    selectedGridChangeNumberCallback = changeNumberCallback;
+  if(grid != null) {
+    selectedGrid = grid;
   }
 }
 

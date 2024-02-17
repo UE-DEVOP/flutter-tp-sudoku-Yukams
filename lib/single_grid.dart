@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'main.dart';
@@ -18,17 +20,18 @@ class SingleGrid extends StatefulWidget {
   // always marked "final".
 
   @override
-  State<SingleGrid> createState() => _SingleGrid();
+  State<SingleGrid> createState() => SingleGridState();
 }
 
-class _SingleGrid extends State<SingleGrid> {
+class SingleGridState extends State<SingleGrid> {
   String value = "0";
+  String expectedValue = "0";
   bool isSelected = false;
 
   @override
   void initState() {
     super.initState();
-    value = getValueFromPuzzle();
+    getValueFromPuzzle();
   }
 
   @override
@@ -49,28 +52,38 @@ class _SingleGrid extends State<SingleGrid> {
                   : Colors.transparent,
             ),
             alignment: Alignment.center,
-            child: Text(value),
+            child: value != "0" ? Text(value) : Text(expectedValue, style: const TextStyle(color: Colors.black12),),
           ),
         ),
       )
     );
   }
 
-  String getValueFromPuzzle() {
+  void setStateFalse() {
+    setState(() => isSelected = false);
+  }
+
+  void setValueForGrid(String v) {
+    setState(() => value = v);
+  }
+
+  void getValueFromPuzzle() {
     int v = puzzle.board()?.matrix()?[widget.x][widget.y].getValue()??0;
-    return v == 0 ? "" : v.toString();
+    if(v == 0) {
+      v = puzzle.solvedBoard()?.matrix()?[widget.x][widget.y].getValue()??0;
+      expectedValue = v.toString();
+    } else {
+      value = v.toString();
+    }
   }
 
   void doOnTap() {
     setState(() {
-      isSelected = isSelected == false; // if not already selected
+      isSelected = !isSelected; // if not already selected
       if(isSelected) {
-        setSelectedGridCallback(
-              () => setState(() => isSelected = false),
-              (String v) => setState(() => value = v)
-        );
+        setSelectedGrid(this);
       } else {
-        setSelectedGridCallback(null, null);
+        setSelectedGrid(null);
       }
     });
   }

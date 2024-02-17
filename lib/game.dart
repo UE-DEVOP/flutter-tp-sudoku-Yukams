@@ -105,8 +105,8 @@ class _GameState extends State<Game> {
   }
 
   void changeValue(String v) {
-    if(selectedGridChangeNumberCallback != null) {
-      selectedGridChangeNumberCallback!(v);
+    if(selectedGrid != null) {
+      selectedGrid!.setValueForGrid(v);
     }
   }
 }
