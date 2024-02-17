@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sudoku_starter/internal_grid.dart';
 import 'package:sudoku_starter/main.dart';
 
@@ -93,15 +94,15 @@ class _GameState extends State<Game> {
                 );
               }),
             ),
-          ],
+            const SizedBox(height: 10),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(onPressed: () => context.go('/end'), child: const Text("Terminer la partie"))])
+              ]
+            ),
         ),
-      ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),*/ // This trailing comma makes auto-formatting nicer for build methods.
-    );
+      );
   }
 
   void changeValue(String v) {
