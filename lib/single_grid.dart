@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SingleGrid extends StatefulWidget {
-  const SingleGrid({Key? key, required this.value}) : super(key: key);
+import 'main.dart';
 
-  final int value;
+class SingleGrid extends StatefulWidget {
+  const SingleGrid({Key? key, required this.x, required this.y}) : super(key: key);
+
+  final int x;
+  final int y;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -25,8 +28,13 @@ class _SingleGrid extends State<SingleGrid> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Text(widget.value.toString())
+        child: Text(getValueFromPuzzle())
       )
     );
+  }
+
+  String getValueFromPuzzle() {
+    int v = puzzle.board()?.matrix()?[widget.x][widget.y].getValue()??0;
+    return v == 0 ? "" : v.toString();
   }
 }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sudoku_starter/single_grid.dart';
 
 class InternalGrid extends StatefulWidget {
-  const InternalGrid({Key? key, required this.parentSize}) : super(key: key);
+  const InternalGrid({Key? key, required this.parentSize, required this.gridNumber}) : super(key: key);
 
   final double parentSize;
+  final int gridNumber;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -50,12 +51,12 @@ class _InternalGrid extends State<InternalGrid> {
                 width: boxSize * 3,
                 child: GridView.count(
                   crossAxisCount: 3,
-                  children: List.generate(9, (x) {
+                  children: List.generate(9, (y) {
                     return Container(
                       width: boxSize,
                       height: boxSize,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0.3)),
-                      child: const SingleGrid(value: 1),
+                      child: SingleGrid(x: (widget.gridNumber~/3)+(y~/3), y: (widget.gridNumber%3)+(y%3)),
                     );
                   }),
                 )

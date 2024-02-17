@@ -63,7 +63,7 @@ class _GameState extends State<Game> {
                         width: boxSize,
                         height: boxSize,
                         decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent, width: 0.5)),
-                        child: InternalGrid(parentSize: boxSize - 3),
+                        child: InternalGrid(parentSize: boxSize - 3, gridNumber: x),
                       );
                     }),
                 )
