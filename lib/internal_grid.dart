@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sudoku_starter/internal_grid.dart';
+import 'package:sudoku_starter/single_grid.dart';
 
-class Game extends StatefulWidget {
-  const Game({Key? key, required this.title}) : super(key: key);
+class InternalGrid extends StatefulWidget {
+  const InternalGrid({Key? key, required this.parentSize}) : super(key: key);
+
+  final double parentSize;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -13,26 +15,16 @@ class Game extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
-
   @override
-  State<Game> createState() => _GameState();
+  State<InternalGrid> createState() => _InternalGrid();
 }
 
-class _GameState extends State<Game> {
+class _InternalGrid extends State<InternalGrid> {
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height / 2;
-    var width = MediaQuery.of(context).size.width;
-    var maxSize = height > width ? width : height;
-    var boxSize = (maxSize / 3).ceil().toDouble();
+    var boxSize = (widget.parentSize / 3).ceil().toDouble();
 
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -57,25 +49,20 @@ class _GameState extends State<Game> {
                 height: boxSize * 3,
                 width: boxSize * 3,
                 child: GridView.count(
-                    crossAxisCount: 3,
-                    children: List.generate(9, (x) {
-                      return Container(
-                        width: boxSize,
-                        height: boxSize,
-                        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent, width: 0.5)),
-                        child: InternalGrid(parentSize: boxSize - 3),
-                      );
-                    }),
+                  crossAxisCount: 3,
+                  children: List.generate(9, (x) {
+                    return Container(
+                      width: boxSize,
+                      height: boxSize,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0.3)),
+                      child: const SingleGrid(value: 1),
+                    );
+                  }),
                 )
             )
           ],
         ),
-      ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),*/ // This trailing comma makes auto-formatting nicer for build methods.
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
